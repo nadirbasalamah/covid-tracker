@@ -3,7 +3,7 @@
     <DataTitle :text="title" :dataDate="dataDate" />
     <DataBoxes :stats="stats" />
     <CountrySelect @get-country="getCountryData" :countries="countries" />
-
+    <DataGraph :country="stats" />
     <button
       @click="clearCountryData"
       v-if="stats.Country"
@@ -31,6 +31,7 @@
 import DataTitle from "@/components/DataTitle";
 import DataBoxes from "@/components/DataBoxes";
 import CountrySelect from "@/components/CountrySelect";
+import DataGraph from "../components/DataGraph";
 
 export default {
   name: "Home",
@@ -38,6 +39,7 @@ export default {
     DataTitle,
     DataBoxes,
     CountrySelect,
+    DataGraph,
   },
   data() {
     return {
