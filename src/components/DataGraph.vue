@@ -1,50 +1,36 @@
 <template>
-  <DateSelect @get-dates="getDateData" />
   <div>
-    <h3>{{ title }}</h3>
-  </div>
-  <div>
-    <p>The graphs will be shown here</p>
-    <line-chart v-if="loaded" :chartdata="data" />
+    <p>{{ title }}</p>
+    <DataChart v-if="loaded" :sampleData="data" />
   </div>
 </template>
 
 <script>
-import DateSelect from "./DateSelect";
-import LineChart from "./LineChart.vue";
+import DataChart from "./DataChart";
 
 export default {
   name: "DataGraph",
   components: {
-    DateSelect,
-    LineChart,
+    DataChart,
   },
-  props: ["country"],
+  props: ["country", "fromDate", "toDate"],
   data() {
     return {
-      title: "Confirmed Case by Date",
-      loadingImage: require("../assets/hourglass.gif"),
       data: null,
       loaded: false,
+      title: "Confirmed Cases",
     };
   },
-  methods: {
-    async getDateData(dateData) {
-      this.loaded = false;
+  async created() {
+    const res = await fetch(
+      `https://api.covid19api.com/country/${this.country.Slug}/status/confirmed?from=${this.fromDate}&to=${this.toDate}`
+    );
 
-      const fromDate = dateData.startDate + "T00:00:00Z";
-      const toDate = dateData.endDate + "T00:00:00Z";
+    const covidData = await res.json();
 
-      const res = await fetch(
-        `https://api.covid19api.com/country/${this.country.Slug}/status/confirmed?from=${fromDate}&to=${toDate}`
-      );
-
-      const covidData = await res.json();
-
-      this.data = covidData;
-      this.title = `Confirmed Cases by Date for ${this.country.Country}`;
-      this.loaded = true;
-    },
+    this.data = covidData;
+    this.title = `Confirmed Cases by Date for ${this.country.Country}`;
+    this.loaded = true;
   },
 };
 </script>
