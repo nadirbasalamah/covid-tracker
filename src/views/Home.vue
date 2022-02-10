@@ -48,9 +48,6 @@ export default {
       dataDate: "",
       stats: {},
       countries: [],
-      startDate: null,
-      endDate: null,
-      showGraph: false,
       countrySelected: false,
       loadingImage: require("../assets/hourglass.gif"),
     };
@@ -76,7 +73,7 @@ export default {
       this.title = "Global";
       this.stats = data.Global;
       this.loading = false;
-      this.showGraph = false;
+      this.countrySelected = false;
     },
   },
   async created() {
