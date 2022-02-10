@@ -3,7 +3,7 @@
     <DataTitle :text="title" :dataDate="dataDate" />
     <DataBoxes :stats="stats" />
     <CountrySelect @get-country="getCountryData" :countries="countries" />
-    <DateSelect @get-dates="getDateData" />
+    <DateSelect @get-dates="getDateData" v-if="countrySelected" />
     <DataGraph
       :country="stats"
       :fromDate="startDate"
@@ -59,6 +59,7 @@ export default {
       startDate: null,
       endDate: null,
       showGraph: false,
+      countrySelected: false,
       loadingImage: require("../assets/hourglass.gif"),
     };
   },
@@ -73,6 +74,7 @@ export default {
     getCountryData(country) {
       this.stats = country;
       this.title = country.Country;
+      this.countrySelected = true;
     },
     getDateData(dateData) {
       const isInvalid =

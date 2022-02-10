@@ -15,8 +15,6 @@ export default defineComponent({
   components: { LineChart },
   props: ["sampleData"],
   setup(props) {
-    console.log("current: ", props.sampleData[0]);
-
     const dateLabels = props.sampleData.map((data) =>
       moment(data.Date).format("MM-DD-YYYY")
     );

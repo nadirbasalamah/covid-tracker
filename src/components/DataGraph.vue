@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col align-center justify-center text-center mt-10">
     <p>{{ title }}</p>
     <DataChart v-if="loaded" :sampleData="data" />
   </div>
