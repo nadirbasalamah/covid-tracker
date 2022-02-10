@@ -3,13 +3,7 @@
     <DataTitle :text="title" :dataDate="dataDate" />
     <DataBoxes :stats="stats" />
     <CountrySelect @get-country="getCountryData" :countries="countries" />
-    <DateSelect @get-dates="getDateData" v-if="countrySelected" />
-    <DataGraph
-      :country="stats"
-      :fromDate="startDate"
-      :toDate="endDate"
-      v-if="showGraph"
-    />
+    <DataChart v-if="countrySelected" :country="stats" />
     <button
       @click="clearCountryData"
       v-if="stats.Country"
@@ -37,8 +31,7 @@
 import DataTitle from "@/components/DataTitle";
 import DataBoxes from "@/components/DataBoxes";
 import CountrySelect from "@/components/CountrySelect";
-import DateSelect from "../components/DateSelect";
-import DataGraph from "../components/DataGraph";
+import DataChart from "../components/DataChart";
 
 export default {
   name: "Home",
@@ -46,8 +39,7 @@ export default {
     DataTitle,
     DataBoxes,
     CountrySelect,
-    DateSelect,
-    DataGraph,
+    DataChart,
   },
   data() {
     return {
@@ -75,22 +67,6 @@ export default {
       this.stats = country;
       this.title = country.Country;
       this.countrySelected = true;
-    },
-    getDateData(dateData) {
-      const isInvalid =
-        dateData.startDate === null ||
-        dateData.endDate === null ||
-        dateData.startDate > dateData.endDate ||
-        dateData.startDate === dateData.endDate;
-
-      if (isInvalid) {
-        alert("Please select valid start and end date");
-        return;
-      }
-
-      this.startDate = dateData.startDate + "T00:00:00Z";
-      this.endDate = dateData.endDate + "T00:00:00Z";
-      this.showGraph = true;
     },
     async clearCountryData() {
       this.loading = true;
